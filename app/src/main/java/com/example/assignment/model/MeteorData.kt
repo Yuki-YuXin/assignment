@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 
 data class MeteorData(
-    @Json(name = "id") var id: String? = null,
+    @Json(name = "id") val id: String? = null,
     @Json(name = "mass") var mass: Double = 0.0,
     @Json(name = "name") var name: String? = null,
     @Json(name = "reclat") var reclat: String? = null,

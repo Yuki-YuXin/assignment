@@ -26,8 +26,7 @@
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 android:visibility="visible"
-                app:listData="@{viewModel.meteors}"
-                />
+                app:listData="@{viewModel.meteors}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

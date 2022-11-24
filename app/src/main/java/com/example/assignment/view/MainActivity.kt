@@ -18,7 +18,7 @@ import com.example.assignment.model.MeteorData
 import com.example.assignment.util.Constant
 import com.example.assignment.viewModel.MainViewModel
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickListener{
     private val TAG: String = this.javaClass.name
     private val viewModel: MainViewModel by viewModels()
     lateinit var meteorsListAdapter: MeteorsListAdapter
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(){
         binding.recycler.setLayoutManager(layoutManager)
 
         // Sets the adapter of the photosGrid RecyclerView
-        meteorsListAdapter = MeteorsListAdapter()
+        meteorsListAdapter = MeteorsListAdapter(this,this)
         binding.recycler.setAdapter(meteorsListAdapter)
     }
 
@@ -53,12 +53,12 @@ class MainActivity : AppCompatActivity(){
         return true
     }
 
-//    override fun onRecyclerItemClick(meteorItem: MeteorData?) {
-//        Log.d(TAG, "onRecyclerItemClick called!!")
-//        val mapActivityIntent = Intent(this, MapActivity::class.java)
-//        mapActivityIntent.putExtra(Constant.Intent.METEORITE_NAME, meteorItem?.name)
-//        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem?.reclat)
-//        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem?.reclong)
-//        startActivity(mapActivityIntent)
-//    }
+    override fun onRecyclerItemClick(meteorItem: MeteorData?) {
+        Log.d(TAG, "onRecyclerItemClick called!!")
+        val mapActivityIntent = Intent(this, MapActivity::class.java)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_NAME, meteorItem?.name)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem?.reclat)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem?.reclong)
+        startActivity(mapActivityIntent)
+    }
 }

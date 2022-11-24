@@ -21,8 +21,8 @@ class MapActivity{
 //    private var lat = 0.0
 //    private var lng = 0.0
 //    var actionBar: ActionBar? = null
-//    var activityMapBinding: ActivityMapBinding? = null
-
+//    var activityMapBinding: ac? = null
+//
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        TAG = this.javaClass.name
 //        Log.d(TAG, "onCreate called")

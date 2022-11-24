@@ -21,12 +21,13 @@ enum class MarsApiStatus { LOADING, ERROR, DONE }
  * The [ViewModel] that is attached to the [MainActivity].
  */
 class MainViewModel : ViewModel() {
+
     // Internally, we use a MutableLiveData, because we will be updating the List of MarsPhoto
     // with new values
-    private val _meteors = MutableLiveData<List<MeteorData>>()
+    private val _meteors = MutableLiveData<MutableList<MeteorData>>()
 
     // The external LiveData interface to the property is immutable, so only this class can modify
-    val meteors: LiveData<List<MeteorData>> = _meteors
+    val meteors: LiveData<MutableList<MeteorData>> = _meteors
 
     /**
      * Call getInfo() on init so we can display status immediately.
@@ -44,10 +45,10 @@ class MainViewModel : ViewModel() {
             try {
                 _meteors.value = MeteorsApi.retrofitService.getMeteorsInfo()
             } catch (e: Exception) {
-                _meteors.value = listOf()
+                _meteors.value = mutableListOf()
             }
         }
     }
 
-    fun itemClick(){}
+
 }

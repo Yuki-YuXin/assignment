@@ -31,12 +31,12 @@ private val retrofit = Retrofit.Builder()
  */
 interface MeteorsApiService {
     /**
-     * Returns a [List] of [MeteorData] and this method can be called from a Coroutine.
+     * Returns a [MutableList] of [MeteorData] and this method can be called from a Coroutine.
      * The @GET annotation indicates that the "photos" endpoint will be requested with the GET
      * HTTP method
      */
     @GET("resource/y77d-th95.json?\$where=year>='1900-01-01T00:00:00.000'")//&\$limit=15")
-    suspend fun getMeteorsInfo(): List<MeteorData>
+    suspend fun getMeteorsInfo(): MutableList<MeteorData>
 }
 
 /**

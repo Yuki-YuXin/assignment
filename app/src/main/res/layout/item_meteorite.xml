@@ -7,89 +7,78 @@
         <variable
             name="meteor"
             type="com.example.assignment.model.MeteorData" />
+
+        <variable
+            name="itemClickListener"
+            type="com.example.assignment.adapter.MeteorsListAdapter.RecyclerItemClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
         android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{() -> itemClickListener.onRecyclerItemClick(meteor)}"
         card_view:cardCornerRadius="2dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:orientation="vertical">
+            android:layout_height="69dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/name"
+                style="@style/RecyclerTextBold"
+                android:layout_width="106dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@{meteor.name}"
+                android:textStyle="bold"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="Test name" />
+
+            <TextView
+                android:id="@+id/mass"
+                style="@style/RecyclerText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:orientation="vertical">
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{String.valueOf((float) meteor.mass)}"
+                android:textAlignment="viewEnd"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="32320kg" />
 
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/RecyclerTextBold"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="4dp"
-                    tools:text="@{meteor.name}" />
+            <TextView
+                android:id="@+id/location"
+                style="@style/RecyclerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="4dp"
+                android:text="@{ '[' + meteor.reclat + ',' + meteor.reclong + ']' }"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="[54.0000420, 22:005000]" />
 
-                <TextView
-                    android:id="@+id/date"
-                    style="@style/RecyclerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="20dp"
-                    android:layout_toEndOf="@+id/name"
-                    android:textAlignment="viewEnd"
-                    android:layout_alignParentEnd="true"
-                    android:text="@{meteor.year}" />
-
-                <TextView
-                    android:id="@+id/location"
-                    style="@style/RecyclerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="4dp"
-                    android:text="@{meteor.reclat}"
-                    tools:text="[54.0000420, 22:005000]" />
-
-                <TextView
-                    android:id="@+id/mass"
-                    style="@style/RecyclerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name"
-                    android:layout_toEndOf="@+id/location"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="20dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_alignParentRight="true"
-                    android:textAlignment="viewEnd"
-                    tools:text="32320kg" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/colorPrimary" />
-
-
-        </LinearLayout>
+            <TextView
+                android:id="@+id/date"
+                style="@style/RecyclerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{meteor.year}"
+                android:textAlignment="viewEnd"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/mass" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>
