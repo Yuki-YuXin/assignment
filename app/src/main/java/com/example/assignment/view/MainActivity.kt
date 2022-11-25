@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         val view: View = binding.getRoot()
         setContentView(view)
 
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
+        // Allows Data Binding to Observe LiveData with the lifecycle of this Activity
         binding.lifecycleOwner = this
 
         // Giving the binding access to the OverviewViewModel
@@ -53,6 +55,11 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refresh()
+    }
+
     override fun onRecyclerItemClick(meteorItem: MeteorData?) {
         Log.d(TAG, "onRecyclerItemClick called!!")
         val mapActivityIntent = Intent(this, MapActivity::class.java)
@@ -60,5 +67,18 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem?.reclat)
         mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem?.reclong)
         startActivity(mapActivityIntent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_sort -> {
+                Log.d(TAG,"TODO")
+            }
+            R.id.action_refresh -> {
+                viewModel.refresh()
+                Toast.makeText(this, "List refreshed", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
     }
 }

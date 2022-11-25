@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.databinding.ItemMeteoriteBinding
 import com.example.assignment.model.MeteorData
-import com.example.assignment.viewModel.MainViewModel
 
 /**
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List] data

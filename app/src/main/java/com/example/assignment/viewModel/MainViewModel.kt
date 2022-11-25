@@ -37,7 +37,7 @@ class MainViewModel : ViewModel() {
     }
 
     /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
+     * Gets Meteors photos information from the NASA's API Retrofit service and updates the
      * [MeteorData] [List] [LiveData].
      */
     private fun getMeteorsInfo() {
@@ -48,6 +48,10 @@ class MainViewModel : ViewModel() {
                 _meteors.value = mutableListOf()
             }
         }
+    }
+
+    fun refresh(){
+        getMeteorsInfo()
     }
 
 
