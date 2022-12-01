@@ -1,5 +1,6 @@
 package com.example.assignment
 
+import android.provider.Settings.Global.getString
 import android.util.Log
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -27,17 +28,25 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: MutableList<MeteorData>?)
  * Transform mass attribute from Double to String with kg.
  */
 @BindingAdapter("app:massText")
-fun massText(view: TextView, text: String) {
-    view.text = text + "kg"
+fun massText(view: TextView, mass: Double) {
+    view.text = String.format("%.1f", mass) + R.string.main_mass_unit
 }
 
 /**
- * Transform mass attribute from Double to String with kg.
+ * Transform date format.
  */
 @BindingAdapter("app:dateText")
 fun dateText(view: TextView, text: String) {
     val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     val date: Date = format.parse(text)
     view.text = date.toString()
+}
+
+/**
+ * Combine reclat and reclong together
+ */
+@BindingAdapter("app:locationText")
+fun locationText(view: TextView, meteor: MeteorData) {
+    view.text ='[' + meteor.reclat.toString() + ',' + meteor.reclong.toString() + ']'
 }
 

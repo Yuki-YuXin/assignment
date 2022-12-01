@@ -7,15 +7,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.R
 import com.example.assignment.adapter.MeteorsListAdapter
+import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.model.MeteorData
 import com.example.assignment.util.Constant
 import com.example.assignment.viewModel.MainViewModel
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         binding.recycler.setLayoutManager(layoutManager)
 
         // Sets the adapter of the photosGrid RecyclerView
-        meteorsListAdapter = MeteorsListAdapter(this,this)
+        meteorsListAdapter = MeteorsListAdapter(this)
         binding.recycler.setAdapter(meteorsListAdapter)
     }
 
@@ -60,12 +59,11 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         viewModel.refresh()
     }
 
-    override fun onRecyclerItemClick(meteorItem: MeteorData?) {
-        Log.d(TAG, "onRecyclerItemClick called!!")
+    override fun onRecyclerItemClick(meteorItem: MeteorData) {
         val mapActivityIntent = Intent(this, MapActivity::class.java)
-        mapActivityIntent.putExtra(Constant.Intent.METEORITE_NAME, meteorItem?.name)
-        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem?.reclat)
-        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem?.reclong)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_NAME, meteorItem.name)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem.reclat)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem.reclong)
         startActivity(mapActivityIntent)
     }
 

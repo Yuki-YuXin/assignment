@@ -26,7 +26,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="69dp">
+            android:layout_height="103dp">
 
             <TextView
                 android:id="@+id/name"
@@ -36,7 +36,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:text="@{meteor.name}"
-                android:textStyle="bold"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
                 tools:text="Test name" />
@@ -44,12 +43,12 @@
             <TextView
                 android:id="@+id/mass"
                 style="@style/RecyclerText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="21dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
-                app:massText="@{String.valueOf(meteor.mass)}"
                 android:textAlignment="viewEnd"
+                app:massText="@{meteor.mass}"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
                 tools:text="32320kg" />
@@ -63,7 +62,7 @@
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
                 android:paddingEnd="4dp"
-                android:text="@{ '[' + meteor.reclat + ',' + meteor.reclong + ']' }"
+                app:locationText="@{meteor}"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/name"
                 tools:text="[54.0000420, 22:005000]" />
@@ -73,12 +72,15 @@
                 style="@style/RecyclerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                app:dateText="@{meteor.year}"
                 android:textAlignment="viewEnd"
+                app:dateText="@{meteor.year}"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/mass" />
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/location"
+                tools:text="Tue Jan 01 00:00:00 GMT 1952" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

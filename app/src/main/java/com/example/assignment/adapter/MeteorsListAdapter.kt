@@ -13,23 +13,17 @@ import com.example.assignment.model.MeteorData
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List] data
  */
 class MeteorsListAdapter(
-    context: Context,
-    recyclerItemClickListener: RecyclerItemClickListener,
+    context: Context
 ) : RecyclerView.Adapter<MeteorsListAdapter.MeteorsViewHolder>() {
 
     private val TAG: String = this.javaClass.name
 
     var meteorDataList: MutableList<MeteorData> = mutableListOf()
-    var context: Context
-    var recyclerItemClickListener: RecyclerItemClickListener
+    var context: Context = context
 
-    init {
-        this.context = context
-        this.recyclerItemClickListener = recyclerItemClickListener
-    }
 
     interface RecyclerItemClickListener {
-        fun onRecyclerItemClick(meteorItem: MeteorData?)
+        fun onRecyclerItemClick(meteorItem: MeteorData)
     }
 
     class MeteorsViewHolder private constructor(private var binding: ItemMeteoriteBinding): RecyclerView.ViewHolder(binding.root) {
