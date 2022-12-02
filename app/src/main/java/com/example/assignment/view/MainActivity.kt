@@ -1,6 +1,7 @@
 package com.example.assignment.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,8 @@ import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.model.MeteorData
 import com.example.assignment.util.Constant
 import com.example.assignment.viewModel.MainViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 
 class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickListener{
     private val TAG: String = this.javaClass.name
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_sort -> {
-                Log.d(TAG,"TODO")
+                showSortListDialog()
             }
             R.id.action_refresh -> {
                 viewModel.refresh()
@@ -78,5 +81,24 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
             }
         }
         return true
+    }
+
+    private fun showSortListDialog() {
+        MaterialAlertDialogBuilder(this@MainActivity)
+            .setTitle("Choose the filtering options:")
+            .setView(R.layout.view_sort_dialog)
+            .setPositiveButton(
+                "Apply"
+            ) { dialogInterface, i -> applySortListDialog(dialogInterface)}
+            .setNegativeButton(
+                "CANCEL"
+            ) { dialogInterface, i -> }
+            .show()
+    }
+
+    fun applySortListDialog(dialog: DialogInterface) {
+        viewModel.meteors.value?.sortedByDescending { it.mass }
+        meteorsListAdapter.notifyDataSetChanged()
+        Log.d(TAG, viewModel._itemPosition.value.toString())
     }
 }

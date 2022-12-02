@@ -17,9 +17,7 @@ class MeteorsListAdapter(
 ) : RecyclerView.Adapter<MeteorsListAdapter.MeteorsViewHolder>() {
 
     private val TAG: String = this.javaClass.name
-
     var meteorDataList: MutableList<MeteorData> = mutableListOf()
-    var context: Context = context
 
 
     interface RecyclerItemClickListener {
@@ -42,20 +40,6 @@ class MeteorsListAdapter(
             }
         }
     }
-
-//    /**
-//     * Allows the RecyclerView to determine which items have changed when the [List] of
-//     * [MeteorData] has been updated.
-//     */
-//    companion object DiffCallback : DiffUtil.ItemCallback<MeteorData>() {
-//        override fun areItemsTheSame(oldItem: MeteorData, newItem: MeteorData): Boolean {
-//            return oldItem.id == newItem.id
-//        }
-//
-//        override fun areContentsTheSame(oldItem: MeteorData, newItem: MeteorData): Boolean {
-//            return oldItem.name == newItem.name
-//        }
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeteorsViewHolder {
         return MeteorsViewHolder.from(parent)

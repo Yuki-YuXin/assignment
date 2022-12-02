@@ -1,16 +1,23 @@
 package com.example.assignment
 
-import android.provider.Settings.Global.getString
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatSpinner
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.adapter.MeteorsListAdapter
 import com.example.assignment.model.MeteorData
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+private val TAG = "BindingAdapter"
 /**
  * Updates the data shown in the [RecyclerView].
  */
@@ -50,3 +57,17 @@ fun locationText(view: TextView, meteor: MeteorData) {
     view.text ='[' + meteor.reclat.toString() + ',' + meteor.reclong.toString() + ']'
 }
 
+
+@BindingAdapter("app:spinnerClicks")
+fun listenClicks(spinner: AppCompatSpinner, result: MutableLiveData<Int>) {
+    spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            println("Nothing")
+        }
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            result.value = parent?.getItemAtPosition(position) as Int
+            Log.d(TAG, parent.getItemAtPosition(position) as String)
+        }
+    }
+}
