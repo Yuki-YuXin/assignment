@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
 
     fun applySortListDialog(dialog: DialogInterface) {
         viewModel.meteors.value?.sortedByDescending { it.mass }
+        Log.d(TAG, viewModel.itemPosition.describeContents().toString())
         meteorsListAdapter.notifyDataSetChanged()
-        Log.d(TAG, viewModel._itemPosition.value.toString())
     }
 }

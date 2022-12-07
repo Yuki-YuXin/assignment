@@ -1,8 +1,9 @@
 package com.example.assignment.viewModel
 
-import android.util.Log
-import android.view.View
-import android.widget.AdapterView
+import com.example.assignment.BR
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ import com.example.assignment.model.MeteorData
 import com.example.assignment.network.MeteorsApi
 import com.example.assignment.view.MainActivity
 import kotlinx.coroutines.launch
-import java.lang.System.out
+
 
 /**
  * The [ViewModel] that is attached to the [MainActivity].
@@ -21,8 +22,8 @@ class MainViewModel : ViewModel() {
     // Internally, we use a MutableLiveData, because we will be updating the List of MarsPhoto
     // with new values
     private val _meteors = MutableLiveData<MutableList<MeteorData>>()
-    val _itemPosition = MutableLiveData<Int>()
-    val _radioChecked = MutableLiveData<Int>()
+
+    var itemPosition = ObservableInt()
 
     // The external LiveData interface to the property is immutable, so only this class can modify
     val meteors: LiveData<MutableList<MeteorData>> = _meteors

@@ -15,13 +15,12 @@
         android:orientation="vertical"
         tools:ignore="ExtraText">
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/sortFieldSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/sort_fields"
-            android:selectedItemPosition="@{viewModel._itemPosition}"
-            app:spinnerClicks="@{viewModel._itemPosition}"
+            android:selectedItemPosition="@={viewModel.itemPosition}"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             app:layout_constraintEnd_toEndOf="parent"
