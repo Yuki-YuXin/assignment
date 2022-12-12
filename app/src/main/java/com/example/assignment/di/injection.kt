@@ -1,5 +1,6 @@
 package com.example.assignment.di
 
+import android.content.Context
 import com.example.assignment.data.ApiClient
 import com.example.assignment.data.MeteorRemoteDataSource
 import com.example.assignment.model.MeteorDataSource
@@ -18,7 +19,7 @@ object Injection {
         return dataSource
     }
 
-    private fun createMuseumRepository(): MeteorRepository {
+    private fun createMeteorRepository(): MeteorRepository {
         val repository = MeteorRepository(provideDataSource())
         meteorRepository = repository
         return repository
@@ -31,7 +32,7 @@ object Injection {
     }
 
     private fun provideDataSource() = meteorDataSource ?: createMeteorDataSource()
-    private fun providerRepository() = meteorRepository ?: createMuseumRepository()
+    private fun providerRepository() = meteorRepository ?: createMeteorRepository()
 
     fun provideViewModelFactory() = meteorViewModelFactory ?: createFactory()
 

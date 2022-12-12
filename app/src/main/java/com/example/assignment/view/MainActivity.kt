@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
 
     override fun onResume() {
         super.onResume()
-        viewModel.getMeteorsInfo()
+        viewModel.getMeteorsInfo(this.context)
     }
 
     override fun onDestroy() {
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
                 }
             }
             com.example.assignment.R.id.action_refresh -> {
-                viewModel.getMeteorsInfo()
+                viewModel.getMeteorsInfo(this.context)
                 Toast.makeText(this, "List refreshed", Toast.LENGTH_SHORT).show()
             }
         }

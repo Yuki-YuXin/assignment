@@ -14,4 +14,9 @@ class Constant {
     object ApiDetail {
         const val URL = "https://data.nasa.gov/"
     }
+
+    object Settings {
+        const val SORT_FIELD = "sort_field"
+        const val SORT_ORDER = "sort_orientation"
+    }
 }
