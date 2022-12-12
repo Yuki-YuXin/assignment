@@ -4,6 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.example.assignment.model.MeteorData
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import org.json.JSONArray
 import java.io.*
 import kotlin.reflect.typeOf
 
@@ -21,7 +24,9 @@ internal object FileHelper {
                         Context.MODE_PRIVATE
                     )
                 )
-            outputStreamWriter.write(data.toString())
+            val gsonPretty = GsonBuilder().setPrettyPrinting().create()
+            val jsonTutPretty: String = gsonPretty.toJson(data)
+            outputStreamWriter.write(jsonTutPretty)
             outputStreamWriter.close()
         } catch (e: IOException) {
             Log.e(TAG, "File write failed :", e)
@@ -29,7 +34,6 @@ internal object FileHelper {
     }
 
     fun readFromFile(context: Context): List<MeteorData> {
-        var jsonString : String? = null
         var listMeteor : List<MeteorData> = emptyList()
         try {
             val inputStream = context.openFileInput("data.json")
@@ -37,8 +41,9 @@ internal object FileHelper {
             if (inputStream != null) {
                 val receiveString = inputStream.bufferedReader().use(BufferedReader::readText)
                 inputStream.close()
-                jsonString = receiveString
-                listMeteor = Gson().fromJson(jsonString, Array<MeteorData>::class.java).toList()
+                val gson = Gson()
+                val listType = object : TypeToken<List<MeteorData>>() {}.type
+                listMeteor = gson.fromJson(receiveString, listType)
             }
         } catch (e: FileNotFoundException) {
             Log.e(TAG, "File not found :", e)
