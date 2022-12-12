@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,16 +19,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.adapter.MeteorsListAdapter
 import com.example.assignment.databinding.ActivityMainBinding
+import com.example.assignment.di.Injection
 import com.example.assignment.model.MeteorData
 import com.example.assignment.util.*
 import com.example.assignment.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickListener {
     private val TAG: String = this.javaClass.name
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel by viewModels<MainViewModel> {
+        Injection.provideViewModelFactory()
+    }
     lateinit var meteorsListAdapter: MeteorsListAdapter
     lateinit var activityMainBinding: ActivityMainBinding
     lateinit var context: Context
@@ -45,13 +48,19 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         activityMainBinding.recycler.setLayoutManager(layoutManager)
 
+        setupViewModel()
         fillRecyclerViewData()
 
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refresh()
+        viewModel.getMeteorsInfo()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Injection.destroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -59,14 +68,34 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         return true
     }
 
-    private val renderMuseums = Observer<List<MeteorData>> {
+    private val renderMeteorData = Observer<List<MeteorData>> {
+        activityMainBinding.layoutError.textViewError.visibility = View.GONE
+        activityMainBinding.layoutEmpty.textViewEmptyList.visibility = View.GONE
         meteorsListAdapter.update(it)
     }
 
+    private val onMessageErrorObserver = Observer<Any> {
+        activityMainBinding.layoutError.textViewError.visibility = View.VISIBLE
+        activityMainBinding.layoutEmpty.textViewEmptyList.visibility = View.GONE
+        activityMainBinding.layoutError.textViewError.text = "Error $it"
+    }
+
+    private val emptyListObserver = Observer<Boolean> {
+        activityMainBinding.layoutEmpty.textViewEmptyList.visibility = View.VISIBLE
+        activityMainBinding.layoutError.textViewError.visibility = View.GONE
+    }
+
+
     fun fillRecyclerViewData() {
-        viewModel.meteors.observe(this, renderMuseums)
+        Log.d(TAG, viewModel.meteors.value.toString() )
         meteorsListAdapter = MeteorsListAdapter(viewModel.meteors.value ?: emptyList(),this,this)
         activityMainBinding.recycler.setAdapter(meteorsListAdapter)
+    }
+
+    private fun setupViewModel() {
+        viewModel.meteors.observe(this, renderMeteorData)
+        viewModel.onMessageError.observe(this, onMessageErrorObserver as Observer<in Any?>)
+        viewModel.isEmptyList.observe(this, emptyListObserver)
     }
 
     override fun onRecyclerItemClick(meteorItem: MeteorData?) {
@@ -77,21 +106,17 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         startActivity(mapActivityIntent)
     }
 
-    override fun <T> Comparator(function: () -> Int): Comparator<T> {
-        TODO("Not yet implemented")
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             com.example.assignment.R.id.action_sort -> {
                 if (viewModel.meteors.value?.isNotEmpty() == true) {
                     showSortListDialog()
                 } else {
-                    Toast.makeText(this@MainActivity, com.example.assignment.R.string.toast_no_data, Toast.LENGTH_SHORT).show()
+                    viewModel.isEmptyList.observe(this, emptyListObserver)
                 }
             }
             com.example.assignment.R.id.action_refresh -> {
-                viewModel.refresh()
+                viewModel.getMeteorsInfo()
                 Toast.makeText(this, "List refreshed", Toast.LENGTH_SHORT).show()
             }
         }
@@ -115,7 +140,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         val dialog = Dialog::class.java.cast(dialog)
         val fieldSpinner = dialog?.findViewById(com.example.assignment.R.id.sortFieldSpinner) as Spinner
         val radioAscendingButton = dialog.findViewById<View>(com.example.assignment.R.id.radioAscending) as RadioButton
-        val compareText = fieldSpinner.getSelectedItem().toString()
+        val compareText = fieldSpinner.getSelectedItem().toString() // get ID here
         var sortList = listOf<MeteorData>()
 
         if (radioAscendingButton.isChecked) {
@@ -123,6 +148,9 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
                 "Mass" -> sortList = viewModel.meteors.value?.sortedBy { it.mass }?.toList() ?: emptyList()
                 "Year" -> sortList = viewModel.meteors.value?.sortedBy { it.year }?.toList() ?: emptyList()
                 "Name" -> sortList = viewModel.meteors.value?.sortedBy { it.name }?.toList() ?: emptyList()
+            // sort function does not belong to the activity.  enmum click sort haddpen -> viewmodel (take the list, sort it and return it)
+                // view model should hold the data but also view model handle business logic
+                // activity hard to write unit test, activity -> Android specific
             }
         } else {
             when (compareText) {

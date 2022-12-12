@@ -27,7 +27,6 @@ class MeteorsListAdapter(
         this.recyclerItemClickListener = recyclerItemClickListener
     }
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -62,7 +61,6 @@ class MeteorsListAdapter(
 
     interface RecyclerItemClickListener {
         fun onRecyclerItemClick(meteorItem: MeteorData?)
-        abstract fun <T> Comparator(function: () -> Int): Comparator<T>
     }
 
     inner class MeteorsViewHolder(itemBinding: ItemMeteoriteBinding) :

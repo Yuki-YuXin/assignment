@@ -1,12 +1,12 @@
 package com.example.assignment.model
 
-import com.squareup.moshi.Json
+import java.io.Serializable
 
 data class MeteorData(
-    @Json(name = "id") var id: String? = null,
-    @Json(name = "mass") var mass: Double = 0.0,
-    @Json(name = "name") var name: String? = null,
-    @Json(name = "reclat") var reclat: String? = null,
-    @Json(name = "reclong") var reclong: String? = null,
-    @Json(name = "year") var year: String? = null,
-)
+    val id: String? = null,
+    val mass: Double = 0.0,
+    var name: String? = null,
+    val reclat: String? = null,
+    val reclong: String? = null,
+    val year: String ?= null
+) : Serializable

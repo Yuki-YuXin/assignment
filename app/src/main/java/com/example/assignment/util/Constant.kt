@@ -10,4 +10,8 @@ class Constant {
     object Map {
         const val CAMERA_ZOOM = 4.0f
     }
+
+    object ApiDetail {
+        const val URL = "https://data.nasa.gov/"
+    }
 }
