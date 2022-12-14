@@ -1,4 +1,4 @@
-package com.example.assignment.ui
+package com.example.assignment.view
 
 import android.os.Bundle
 import android.util.Log

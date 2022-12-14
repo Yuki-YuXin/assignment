@@ -9,25 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.R
 import com.example.assignment.databinding.ItemMeteoriteBinding
 import com.example.assignment.model.MeteorData
-import com.google.gson.Gson
-import java.io.IOException
-import java.io.InputStream
-
 
 class MeteorsListAdapter(
+    meteorList: List<MeteorData>,
     context: Context,
     recyclerItemClickListener: RecyclerItemClickListener
 ) : RecyclerView.Adapter<MeteorsListAdapter.MeteorsViewHolder>() {
 
     private val TAG: String = this.javaClass.name
-    var meteorDataList: MutableList<MeteorData>
+    var meteorDataList: List<MeteorData>
     var context: Context
     var recyclerItemClickListener: RecyclerItemClickListener
 
     init {
         this.context = context
-        meteorDataList = parseJsonToObject(context) as MutableList<MeteorData>
-        Log.d(TAG, meteorDataList.toString())
+        meteorDataList = meteorList
         this.recyclerItemClickListener = recyclerItemClickListener
     }
 
@@ -54,24 +50,13 @@ class MeteorsListAdapter(
         return meteorDataList.size
     }
 
-    private fun remove(item: MeteorData) {
-        Log.d(TAG, "remove list item:$item")
-        val pos = meteorDataList.indexOf(item)
-        if (pos > -1) {
-            meteorDataList.removeAt(pos)
-            notifyItemRemoved(pos)
-        }
+    fun update(data: List<MeteorData>) {
+        meteorDataList = data
+        notifyDataSetChanged()
     }
 
     private fun getItem(position: Int): MeteorData {
         return meteorDataList[position]
-    }
-
-    fun clear() {
-        Log.d(TAG, "clear Recycler view.")
-        while (itemCount > 0) {
-            remove(getItem(0))
-        }
     }
 
     interface RecyclerItemClickListener {
@@ -97,28 +82,4 @@ class MeteorsListAdapter(
             })
         }
     }
-
-    private fun loadJSONFromAsset(context: Context): String? {
-        var json: String? = null
-        json = try {
-            val `is`: InputStream = context.assets.open("y77d-th95.json")
-            val size: Int = `is`.available()
-            val buffer = ByteArray(size)
-            `is`.read(buffer)
-            `is`.close()
-            String(buffer)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
-
-    private fun parseJsonToObject(context: Context): List<MeteorData> {
-        val jsonString: String? = loadJSONFromAsset(context)
-        return Gson().fromJson(jsonString, Array<MeteorData>::class.java).toList()
-    }
-
-
-
 }
