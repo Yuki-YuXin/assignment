@@ -16,12 +16,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.assignment.R
 import com.example.assignment.adapter.MeteorsListAdapter
 import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.model.MeteorData
 import com.example.assignment.util.*
 import com.example.assignment.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.orhanobut.hawk.Hawk
 import java.util.*
 
 
@@ -45,13 +47,10 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         activityMainBinding.recycler.setLayoutManager(layoutManager)
 
+        lifecycle.addObserver(viewModel)
+
         fillRecyclerViewData()
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.refresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,10 +76,6 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         startActivity(mapActivityIntent)
     }
 
-    override fun <T> Comparator(function: () -> Int): Comparator<T> {
-        TODO("Not yet implemented")
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             com.example.assignment.R.id.action_sort -> {
@@ -98,10 +93,15 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         return true
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(viewModel)
+    }
+
     private fun showSortListDialog() {
         MaterialAlertDialogBuilder(this@MainActivity)
-            .setTitle("Choose the filtering options:")
-            .setView(com.example.assignment.R.layout.view_sort_dialog)
+            .setTitle(R.string.main_dialogue_title)
+            .setView(R.layout.view_sort_dialog)
             .setPositiveButton(
                 "Apply"
             ) { dialogInterface, _ -> applySortListDialog(dialogInterface)}
@@ -116,21 +116,15 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         val fieldSpinner = dialog?.findViewById(com.example.assignment.R.id.sortFieldSpinner) as Spinner
         val radioAscendingButton = dialog.findViewById<View>(com.example.assignment.R.id.radioAscending) as RadioButton
         val compareText = fieldSpinner.getSelectedItem().toString()
-        var sortList = listOf<MeteorData>()
 
+        Hawk.init(this.context).build()
+        Hawk.put(Constant.Settings.SORT_FIELD, compareText)
         if (radioAscendingButton.isChecked) {
-            when (compareText) {
-                "Mass" -> sortList = viewModel.meteors.value?.sortedBy { it.mass }?.toList() ?: emptyList()
-                "Year" -> sortList = viewModel.meteors.value?.sortedBy { it.year }?.toList() ?: emptyList()
-                "Name" -> sortList = viewModel.meteors.value?.sortedBy { it.name }?.toList() ?: emptyList()
-            }
+            Hawk.put(Constant.Settings.SORT_ORDER, Constant.SortOrder.ASCENDING)
         } else {
-            when (compareText) {
-                "Mass" -> sortList = viewModel.meteors.value?.sortedByDescending { it.mass }?.toList() ?: emptyList()
-                "Year" -> sortList = viewModel.meteors.value?.sortedByDescending { it.year }?.toList() ?: emptyList()
-                "Name" -> sortList = viewModel.meteors.value?.sortedByDescending { it.name }?.toList() ?: emptyList()
-            }
+            Hawk.put(Constant.Settings.SORT_ORDER, Constant.SortOrder.DESCENDING)
         }
+        val sortList = viewModel.sortMeteor()
         meteorsListAdapter.update(sortList)
     }
 }

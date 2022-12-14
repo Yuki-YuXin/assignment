@@ -10,4 +10,11 @@ class Constant {
     object Map {
         const val CAMERA_ZOOM = 4.0f
     }
+
+    object Settings {
+        const val SORT_FIELD = "sort_field"
+        const val SORT_ORDER = "sort_orientation"
+    }
+
+    enum class SortOrder { ASCENDING, DESCENDING }
 }
