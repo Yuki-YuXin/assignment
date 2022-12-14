@@ -11,4 +11,7 @@
 * Add interactive filter & sorting UI components to the view 
 * Display filtered/sorted list
 5. Detail view 
-* More complex view logic by adding a detail view and handling navigation
+* More complex view logic by adding a detail view and handling navigation 
+6. Persistence
+* List of meteors should be stored for offline usage.
+* Update application logic to use offline state store whenever API is not available.  

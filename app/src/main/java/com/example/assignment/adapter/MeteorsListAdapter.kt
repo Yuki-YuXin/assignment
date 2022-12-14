@@ -27,7 +27,6 @@ class MeteorsListAdapter(
         this.recyclerItemClickListener = recyclerItemClickListener
     }
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
