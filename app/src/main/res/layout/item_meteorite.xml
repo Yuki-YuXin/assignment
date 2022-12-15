@@ -1,87 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
-    android:layout_marginTop="4dp"
-    android:foreground="?attr/selectableItemBackground"
-    card_view:cardCornerRadius="2dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="meteor"
+            type="com.example.assignment.model.MeteorData" />
+
+        <variable
+            name="itemClickListener"
+            type="com.example.assignment.adapter.MeteorsListAdapter.RecyclerItemClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{() -> itemClickListener.onRecyclerItemClick(meteor)}"
+        card_view:cardCornerRadius="2dp">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_height="103dp">
 
             <TextView
                 android:id="@+id/name"
                 style="@style/RecyclerTextBold"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="4dp"
-                tools:text="Sample Meteorite"/>
+                android:layout_width="106dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@{meteor.name}"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="Test name" />
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/mass"
                 style="@style/RecyclerText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="20dp"
-                android:layout_toEndOf="@+id/name"
+                android:layout_width="70dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:textAlignment="viewEnd"
-                android:layout_alignParentRight="true"
-                tools:text="23.2.2015"/>
+                app:massText="@{meteor.mass}"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="32320kg" />
 
             <TextView
                 android:id="@+id/location"
                 style="@style/RecyclerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/name"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
                 android:paddingEnd="4dp"
-                tools:text="[54.0000420, 22:005000]"/>
+                app:locationText="@{meteor}"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="[54.0000420, 22:005000]" />
 
             <TextView
-                android:id="@+id/mass"
+                android:id="@+id/date"
                 style="@style/RecyclerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/name"
-                android:layout_toEndOf="@+id/location"
-                android:paddingStart="15dp"
-                android:paddingEnd="20dp"
-                android:layout_marginBottom="4dp"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:textAlignment="viewEnd"
-                tools:text="32320kg"/>
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/colorPrimary" />
+                app:dateText="@{meteor.year}"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/location"
+                tools:text="Tue Jan 01 00:00:00 GMT 1952" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </LinearLayout>
-
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

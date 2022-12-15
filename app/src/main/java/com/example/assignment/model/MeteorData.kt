@@ -1,12 +1,13 @@
 package com.example.assignment.model
 
+import com.squareup.moshi.Json
 
-open class MeteorData(){
-    var id: String? = null
-    var mass = 0.0
-    var name: String? = null
-    var reclat: String? = null
-    var reclong: String? = null
-    var year: String? = null
 
-}
+data class MeteorData(
+    @Json(name = "id") val id: String? = null,
+    @Json(name = "mass") val mass: Double = 0.0,
+    @Json(name = "name") val name: String? = null,
+    @Json(name = "reclat") val reclat: String? = null,
+    @Json(name = "reclong") val reclong: String? = null,
+    @Json(name = "year") val year: String? = null,
+)
