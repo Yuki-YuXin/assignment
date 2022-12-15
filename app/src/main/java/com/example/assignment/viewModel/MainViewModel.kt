@@ -23,6 +23,10 @@ class MainViewModel(
     private val _isEmptyList = MutableLiveData<Boolean>()
     val isEmptyList: LiveData<Boolean> = _isEmptyList
 
+//    override fun onResume(owner: LifecycleOwner) {
+//        getMeteorsInfo() unsure about what the right way to do when need to pass the context from Activity
+//    }
+
     fun getMeteorsInfo(context: Context) {
         repository.fetchMeteors(object : OperationCallback<MeteorData> {
             override fun onError(error: String?) {

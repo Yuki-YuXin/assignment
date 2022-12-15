@@ -9,23 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.R
 import com.example.assignment.databinding.ItemMeteoriteBinding
 import com.example.assignment.model.MeteorData
+import com.orhanobut.hawk.Hawk.init
 
 class MeteorsListAdapter(
     meteorList: List<MeteorData>,
-    context: Context,
-    recyclerItemClickListener: RecyclerItemClickListener
+    var context: Context,
+    var recyclerItemClickListener: RecyclerItemClickListener
 ) : RecyclerView.Adapter<MeteorsListAdapter.MeteorsViewHolder>() {
 
     private val TAG: String = this.javaClass.name
-    var meteorDataList: List<MeteorData>
-    var context: Context
-    var recyclerItemClickListener: RecyclerItemClickListener
-
-    init {
-        this.context = context
-        meteorDataList = meteorList
-        this.recyclerItemClickListener = recyclerItemClickListener
-    }
+    var meteorDataList: List<MeteorData> = meteorList
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -60,7 +53,7 @@ class MeteorsListAdapter(
     }
 
     interface RecyclerItemClickListener {
-        fun onRecyclerItemClick(meteorItem: MeteorData?)
+        fun onRecyclerItemClick(meteorItem: MeteorData)
     }
 
     inner class MeteorsViewHolder(itemBinding: ItemMeteoriteBinding) :

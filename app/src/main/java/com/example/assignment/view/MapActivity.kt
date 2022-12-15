@@ -26,7 +26,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         TAG = this.javaClass.name
-        Log.d(TAG, "onCreate called")
         super.onCreate(savedInstanceState)
         activityMapBinding = ActivityMapBinding.inflate(getLayoutInflater())
         setContentView(activityMapBinding!!.getRoot())
@@ -38,7 +37,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         supportMapFragment!!.getMapAsync(this)
         actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
-        actionBar!!.setTitle(meteorName)
+        actionBar!!.title = meteorName
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

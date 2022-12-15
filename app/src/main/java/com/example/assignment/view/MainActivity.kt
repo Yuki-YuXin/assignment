@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.assignment.R
 import com.example.assignment.adapter.MeteorsListAdapter
 import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.di.Injection
@@ -47,9 +48,10 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         setContentView(view)
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        activityMainBinding.recycler.setLayoutManager(layoutManager)
+        activityMainBinding.recycler.layoutManager = layoutManager
 
         lifecycle.addObserver(viewModel)
+
         setupViewModel()
         fillRecyclerViewData()
 
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
     override fun onDestroy() {
         super.onDestroy()
         Injection.destroy()
+        lifecycle.removeObserver(viewModel)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -91,7 +94,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
     private fun fillRecyclerViewData() {
         Log.d(TAG, viewModel.meteors.value.toString() )
         meteorsListAdapter = MeteorsListAdapter(viewModel.meteors.value ?: emptyList(),this,this)
-        activityMainBinding.recycler.setAdapter(meteorsListAdapter)
+        activityMainBinding.recycler.adapter = meteorsListAdapter
     }
 
     private fun setupViewModel() {
@@ -100,11 +103,11 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
         viewModel.isEmptyList.observe(this, emptyListObserver)
     }
 
-    override fun onRecyclerItemClick(meteorItem: MeteorData?) {
+    override fun onRecyclerItemClick(meteorItem: MeteorData) {
         val mapActivityIntent = Intent(this, MapActivity::class.java)
-        mapActivityIntent.putExtra(Constant.Intent.METEORITE_NAME, meteorItem?.name)
-        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem?.reclat)
-        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem?.reclong)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_NAME, meteorItem.name)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LAT, meteorItem.reclat)
+        mapActivityIntent.putExtra(Constant.Intent.METEORITE_LNG, meteorItem.reclong)
         startActivity(mapActivityIntent)
     }
 
@@ -127,7 +130,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
 
     private fun showSortListDialog() {
         MaterialAlertDialogBuilder(this@MainActivity)
-            .setTitle("Choose the filtering options:")
+            .setTitle(R.string.main_dialogue_title)
             .setView(com.example.assignment.R.layout.view_sort_dialog)
             .setPositiveButton(
                 "Apply"
