@@ -3,10 +3,7 @@ package com.example.assignment.viewModel
 import android.content.Intent
 import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.assignment.model.MeteorData
 import com.example.assignment.network.MeteorsApi
 import com.example.assignment.util.Constant
@@ -20,7 +17,7 @@ enum class MarsApiStatus { LOADING, ERROR, DONE }
 /**
  * The [ViewModel] that is attached to the [MainActivity].
  */
-class MainViewModel : ViewModel() {
+class MainViewModel : ViewModel(), DefaultLifecycleObserver {
 
     // Internally, we use a MutableLiveData, because we will be updating the List of MarsPhoto
     // with new values
@@ -29,10 +26,7 @@ class MainViewModel : ViewModel() {
     // The external LiveData interface to the property is immutable, so only this class can modify
     val meteors: LiveData<MutableList<MeteorData>> = _meteors
 
-    /**
-     * Call getInfo() on init so we can display status immediately.
-     */
-    init {
+    override fun onResume(owner: LifecycleOwner) {
         getMeteorsInfo()
     }
 

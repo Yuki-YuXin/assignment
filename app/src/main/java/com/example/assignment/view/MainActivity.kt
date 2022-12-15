@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
 
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
+        lifecycle.addObserver(viewModel)
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         binding.recycler.setLayoutManager(layoutManager)
@@ -52,11 +53,6 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         getMenuInflater().inflate(R.menu.menu, menu)
         return true
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.refresh()
     }
 
     override fun onRecyclerItemClick(meteorItem: MeteorData) {
