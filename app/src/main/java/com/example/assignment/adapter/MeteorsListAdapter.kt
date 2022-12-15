@@ -9,27 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.R
 import com.example.assignment.databinding.ItemMeteoriteBinding
 import com.example.assignment.model.MeteorData
-import com.google.gson.Gson
-import java.io.IOException
-import java.io.InputStream
-
+import com.orhanobut.hawk.Hawk.init
 
 class MeteorsListAdapter(
-    context: Context,
-    recyclerItemClickListener: RecyclerItemClickListener
+    meteorList: List<MeteorData>,
+    var context: Context,
+    var recyclerItemClickListener: RecyclerItemClickListener
 ) : RecyclerView.Adapter<MeteorsListAdapter.MeteorsViewHolder>() {
 
     private val TAG: String = this.javaClass.name
-    var meteorDataList: MutableList<MeteorData>
-    var context: Context
-    var recyclerItemClickListener: RecyclerItemClickListener
-
-    init {
-        this.context = context
-        meteorDataList = parseJsonToObject(context) as MutableList<MeteorData>
-        Log.d(TAG, meteorDataList.toString())
-        this.recyclerItemClickListener = recyclerItemClickListener
-    }
+    var meteorDataList: List<MeteorData> = meteorList
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -54,28 +43,17 @@ class MeteorsListAdapter(
         return meteorDataList.size
     }
 
-    private fun remove(item: MeteorData) {
-        Log.d(TAG, "remove list item:$item")
-        val pos = meteorDataList.indexOf(item)
-        if (pos > -1) {
-            meteorDataList.removeAt(pos)
-            notifyItemRemoved(pos)
-        }
+    fun update(data: List<MeteorData>) {
+        meteorDataList = data
+        notifyDataSetChanged()
     }
 
     private fun getItem(position: Int): MeteorData {
         return meteorDataList[position]
     }
 
-    fun clear() {
-        Log.d(TAG, "clear Recycler view.")
-        while (itemCount > 0) {
-            remove(getItem(0))
-        }
-    }
-
     interface RecyclerItemClickListener {
-        fun onRecyclerItemClick(meteorItem: MeteorData?)
+        fun onRecyclerItemClick(meteorItem: MeteorData)
     }
 
     inner class MeteorsViewHolder(itemBinding: ItemMeteoriteBinding) :
@@ -97,28 +75,4 @@ class MeteorsListAdapter(
             })
         }
     }
-
-    private fun loadJSONFromAsset(context: Context): String? {
-        var json: String? = null
-        json = try {
-            val `is`: InputStream = context.assets.open("y77d-th95.json")
-            val size: Int = `is`.available()
-            val buffer = ByteArray(size)
-            `is`.read(buffer)
-            `is`.close()
-            String(buffer)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
-
-    private fun parseJsonToObject(context: Context): List<MeteorData> {
-        val jsonString: String? = loadJSONFromAsset(context)
-        return Gson().fromJson(jsonString, Array<MeteorData>::class.java).toList()
-    }
-
-
-
 }

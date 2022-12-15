@@ -10,4 +10,15 @@ class Constant {
     object Map {
         const val CAMERA_ZOOM = 4.0f
     }
+
+    object ApiDetail {
+        const val URL = "https://data.nasa.gov/"
+    }
+
+    object Settings {
+        const val SORT_FIELD = "sort_field"
+        const val SORT_ORDER = "sort_orientation"
+    }
+
+    enum class SortOrder { ASCENDING, DESCENDING }
 }

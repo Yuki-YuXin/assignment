@@ -7,6 +7,7 @@
     <string name="main_sort_cancel">Cancel</string>
     <string name="main_sort_ascending">Ascending</string>
     <string name="main_sort_descending">Descending</string>
+    <string name="main_dialogue_title">Choose the filtering options:</string>
 
     <!-- Toasts -->
     <string name="toast_no_data">No data available, sorting is disabled</string>
@@ -17,4 +18,9 @@
         <item>Mass</item>
         <item>Name</item>
         <item>Year</item>
-    </string-array></resources>
+    </string-array>
+
+    <!-- Error message -->
+    <string name="empty_list">No museums found!</string>
+    <string name="an_error_occurred">An error occurred</string>
+</resources>
