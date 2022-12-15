@@ -36,7 +36,7 @@ interface MeteorsApiService {
      * HTTP method
      */
     @GET("resource/y77d-th95.json?\$where=year>='1900-01-01T00:00:00.000'")//&\$limit=15")
-    suspend fun getMeteorsInfo(): MutableList<MeteorData>
+    suspend fun getMeteorsInfo(): List<MeteorData>
 }
 
 /**

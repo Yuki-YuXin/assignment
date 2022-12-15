@@ -21,10 +21,10 @@ class MainViewModel : ViewModel(), DefaultLifecycleObserver {
 
     // Internally, we use a MutableLiveData, because we will be updating the List of MarsPhoto
     // with new values
-    private val _meteors = MutableLiveData<MutableList<MeteorData>>()
+    private val _meteors = MutableLiveData<List<MeteorData>>()
 
     // The external LiveData interface to the property is immutable, so only this class can modify
-    val meteors: LiveData<MutableList<MeteorData>> = _meteors
+    val meteors: LiveData<List<MeteorData>> = _meteors
 
     override fun onResume(owner: LifecycleOwner) {
         getMeteorsInfo()

@@ -24,30 +24,28 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
     private val viewModel: MainViewModel by viewModels()
     lateinit var meteorsListAdapter: MeteorsListAdapter
     lateinit var context: Context
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.context = getApplicationContext()
 
         //get layout view
-        val binding =ActivityMainBinding.inflate(getLayoutInflater())
+        binding = ActivityMainBinding.inflate(getLayoutInflater())
 
         val view: View = binding.getRoot()
         setContentView(view)
 
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Activity
         binding.lifecycleOwner = this
 
-        // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
         lifecycle.addObserver(viewModel)
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        binding.recycler.setLayoutManager(layoutManager)
+        binding.recycler.layoutManager = layoutManager
 
-        // Sets the adapter of the photosGrid RecyclerView
-        meteorsListAdapter = MeteorsListAdapter(this)
-        binding.recycler.setAdapter(meteorsListAdapter)
+        meteorsListAdapter = MeteorsListAdapter(viewModel.meteors.value ?: emptyList(),this,this)
+        binding.recycler.adapter = meteorsListAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -74,5 +72,11 @@ class MainActivity : AppCompatActivity(), MeteorsListAdapter.RecyclerItemClickLi
             }
         }
         return true
+    }
+
+    override fun onDestroy(){
+        super.onDestroy()
+        binding.recycler.adapter = null
+        lifecycle.removeObserver(viewModel)
     }
 }
