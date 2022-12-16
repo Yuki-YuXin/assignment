@@ -1,6 +1,5 @@
-package com.example.assignment.viewModel
+package com.example.assignment.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.assignment.model.MeteorRepository

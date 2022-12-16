@@ -1,11 +1,10 @@
 package com.example.assignment.di
 
-import android.content.Context
 import com.example.assignment.data.ApiClient
 import com.example.assignment.data.MeteorRemoteDataSource
 import com.example.assignment.model.MeteorDataSource
 import com.example.assignment.model.MeteorRepository
-import com.example.assignment.viewModel.ViewModelFactory
+import com.example.assignment.viewmodel.ViewModelFactory
 
 object Injection {
 

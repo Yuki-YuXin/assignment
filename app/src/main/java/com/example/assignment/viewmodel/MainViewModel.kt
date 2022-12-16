@@ -1,4 +1,4 @@
-package com.example.assignment.viewModel
+package com.example.assignment.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -30,7 +30,6 @@ class MainViewModel(
     fun getMeteorsInfo(context: Context) {
         repository.fetchMeteors(object : OperationCallback<MeteorData> {
             override fun onError(error: String?) {
-                Log.d(TAG, "Error")
                 _onMessageError.value = error
                 val data = FileHelper.readFromFile(context)
                 this@MainViewModel._meteors.value = data
@@ -38,11 +37,9 @@ class MainViewModel(
 
             override fun onSuccess(data: List<MeteorData>?) {
                 if (data.isNullOrEmpty()) {
-                    Log.d(TAG, "Empty")
                     _isEmptyList.value = true
 
                 } else {
-                    Log.d(TAG, "Success")
                     this@MainViewModel._meteors.value = data
                     FileHelper.writeToFile(data, context)
                 }

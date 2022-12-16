@@ -23,7 +23,7 @@ import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.di.Injection
 import com.example.assignment.model.MeteorData
 import com.example.assignment.util.*
-import com.example.assignment.viewModel.MainViewModel
+import com.example.assignment.viewmodel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orhanobut.hawk.Hawk
 
