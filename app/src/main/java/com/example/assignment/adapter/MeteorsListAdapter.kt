@@ -60,17 +60,15 @@ class MeteorsListAdapter(
         RecyclerView.ViewHolder(itemBinding.getRoot()) {
         var itemMeteoriteBinding: ItemMeteoriteBinding
         fun bind(meteorDataData: MeteorData) {
-            Log.d(TAG, "MeteorsViewHolder bind started")
             itemMeteoriteBinding.name.setText(meteorDataData.name)
             itemMeteoriteBinding.mass.setText(context.getString(R.string.main_mass, meteorDataData.mass))
             itemMeteoriteBinding.location.setText(meteorDataData.reclat.toString() + ", " + meteorDataData.reclong.toString())
-            itemMeteoriteBinding.date.setText(meteorDataData.year?.substring(0, meteorDataData.year!!.indexOf("-")))
+            itemMeteoriteBinding.date.setText(meteorDataData.year?.substring(0, meteorDataData.year.indexOf("-")))
         }
 
         init {
             itemMeteoriteBinding = itemBinding
             itemBinding.getRoot().setOnClickListener(View.OnClickListener {
-                Log.d(TAG,"MeteorsViewHolder clicked pos=" + meteorDataList[adapterPosition])
                 recyclerItemClickListener.onRecyclerItemClick(meteorDataList[adapterPosition])
             })
         }
